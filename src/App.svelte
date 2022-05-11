@@ -1,13 +1,17 @@
 <script>
-  import logo from "./assets/svelte.png";
-  import Counter from "./lib/Counter.svelte";
   import MField from "./lib/MField.svelte";
   import LoseScreen from "./lib/LoseScreen.svelte";
+  import MChoose from "./lib/MChoose.svelte";
   import { fade, fly } from "svelte/transition";
   import WinScreen from "./lib/WinScreen.svelte";
 
   let lost = false;
   let won = false;
+  let choose = true;
+
+  let rows = 20;
+  let columns = 20;
+  let chance = 0.16;
 
   let score = { time: 0, clicks: 0 };
 
@@ -21,17 +25,18 @@
     }
     lost = false;
     won = false;
+    choose = false;
     score = { time: 0, clicks: 0 };
   };
 </script>
 
 <main>
-  {#if !lost && !won}
+  {#if !lost && !won && !choose}
     <div class="center">
       <MField
-        rows={20}
-        columns={20}
-        chance={0.1}
+        bind:rows
+        bind:columns
+        bind:chance
         on:lose={() => {
           setTimeout(() => {
             document.body.classList.toggle("lose");
@@ -46,6 +51,10 @@
           }, 500);
         }}
       />
+    </div>
+  {:else if choose}
+    <div class="center">
+      <MChoose bind:rows bind:columns bind:chance />
     </div>
   {:else if won}
     <div class="center" in:fade={{ duration: 1000 }}>

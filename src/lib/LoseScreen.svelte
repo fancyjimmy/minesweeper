@@ -53,6 +53,5 @@
     width: 80%;
     aspect-ratio: 1;
     filter: drop-shadow(-0.3em 0.3em 0 0 black);
-
   }
 </style>
